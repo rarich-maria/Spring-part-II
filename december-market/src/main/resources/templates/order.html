@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8"/>
+    <title>Order</title>
+    <link rel="stylesheet" th:href="@{../static/css/stylesheet.css}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+<div class="container">
+    <div th:replace="~{navigation :: navigation(Cart)}"/>
+
+    <h1>Ваш заказ</h1>
+    <div>
+        <table class="table table-hover">
+            <thead class="thead-dark">
+            <tr>
+                <th>Название товара</th>
+                <th>Количество</th>
+                <th>Цена</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item : ${cart.items}">
+                <td th:text="${item.product.title}"/>
+                <td th:text="${item.quantity}"/>
+                <td th:text="${item.price}"/>
+            </tr>
+            </tbody>
+        </table>
+        <span th:text="'Общая стоимость: ' + ${cart.price}" />
+        <br>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <header class="card-header">
+                    <h4 class="card-title mt-2"><span>Введите адрес доставки и контактный номер телефона</span></h4>
+                </header>
+                <article class="card-body">
+                    <form th:action="@{/orders/save}" th:object="${address}" method="POST">
+                        <input th:field="*{id}" type="hidden" class="form-control">
+                        <div class="form-row">
+                            <div class="col form-group">
+                                <label>Контактный номер телефона</label>
+                                <input th:field="*{phone}" type="text" class="form-control" th:value="${address.phone}">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col form-group">
+                                <label>Почтовый индекс</label>
+                                <input th:field="*{postcode}" type="text" class="form-control" placeholder="Почтовый индекс">
+                            </div>
+                            <div class="col form-group">
+                                <label>Страна</label>
+                                <input th:field="*{country}" type="text" class="form-control" placeholder="Страна">
+                            </div>
+                            <div class="col form-group">
+                                <label>Город</label>
+                                <input th:field="*{city}" type="text" class="form-control" placeholder="Город">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col form-group">
+                                <label>Улица</label>
+                                <input th:field="*{street}" type="text" class="form-control" placeholder="Улица">
+                            </div>
+                            <div class="col form-group">
+                                <label>Дом</label>
+                                <input th:field="*{house}" type="text" class="form-control" placeholder="Дом">
+                            </div>
+                            <div class="col form-group">
+                                <label>Корпус</label>
+                                <input th:field="*{housing}" type="text" class="form-control" placeholder="Корпус">
+                            </div>
+                            <div class="col form-group">
+                                <label>Квартира</label>
+                                <input th:field="*{flat}" type="text" class="form-control" placeholder="Квартира">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-block">Сохранить и оплатить</button>
+                        </div>
+                    </form>
+                </article>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
