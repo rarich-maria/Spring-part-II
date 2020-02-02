@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8"/>
+
+    <title>Работа с товарами</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <header class="card-header">
+                    <h4 class="card-title mt-2"><span>Создать новый товар</span></h4>
+                </header>
+                <article class="card-body">
+                    <form th:action="@{/create}" th:object="${product}" method="POST">
+                        <input th:field="*{id}" type="hidden" class="form-control">
+                        <div class="form-row">
+                            <div class="col form-group">
+                                <label>Наименование</label>
+                                <input th:field="*{title}" type="text" class="form-control" placeholder="Название">
+                            </div>
+                            <div class="col form-group">
+                                <label>Цена</label>
+                                <input th:field="*{price}" type="number" class="form-control" placeholder="Цена">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col form-group">
+                                <label>Описание</label>
+                                <input th:field="*{description}" type="text" class="form-control" placeholder="Описание">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-block">Сохранить</button>
+                        </div>
+                    </form>
+                </article>
+            </div>
+        </div>
+    </div>
+    <br>
+    <h1>Products</h1>
+    <br>
+    <table class="table table-hover">
+        <thead class="thead-dark">
+        <tr>
+            <th>ID</th>
+            <th>Описание товара</th>
+            <th>Цена</th>
+            <th>Действия</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="product : ${productsList}">
+            <td th:text="${product.id}"/>
+            <td>
+                <a style="font-weight: bold" th:text="${product.title}" th:href="@{'/products/' + ${product.id}}"/>
+                <br>
+                <span th:text="${product.description}"/>
+            </td>
+            <td th:text="${product.price}"/>
+            <td>
+                <a th:href="@{'/delete/' + ${product.id}}" class="btn btn-warning">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
